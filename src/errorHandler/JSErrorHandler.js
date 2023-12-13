@@ -1,6 +1,7 @@
 /**
- * 
- * StocakgeInsufisantCloud 507
+ *
+ *  
+StocakgeInsufisantCloud 507
 FileNotFound 404 Done
 ServerDown 503
 BadFileType 400 Done
@@ -18,7 +19,7 @@ SensitiveFile 400  done
 NotAuthorized 401  done
  */
 
-import { BadFileTypeException, CorruptedFileException, DuplicateFileException, FileNameInvalidException, FileNotFoundException, FileTooLargeException, LegalReasonException, LockException, NotAuthorizedException, NotImplementedException, SensitiveFileException, ServerErrorException } from "../exceptions/index.js";
+import { BadFileTypeException, CorruptedFileException, DuplicateFileException, FileNameInvalidException, FileNotFoundException, FileTooLargeException, LegalReasonException, LockException, NotAuthorizedException, NotImplementedException, SensitiveFileException, ServerErrorException, StockageInsufisantInCloudException, TooManyRequestException } from "../exceptions/index.js";
 import { logger } from "../../utils/index.js";
 import { ServerDownException } from "../exceptions/ServerDownException.js";
 /**
@@ -107,10 +108,14 @@ const LockExceptionHandler = (message)=>{
     }
 // Error 423
 }
-/**
- * TooMany Request Exception is an Exception that occures when the client do to many request at one ressource
- */
-const TooManyRequestException = ()=>{
+
+const TooManyRequestExceptionHandler = (message) => {
+    try{
+        throw new TooManyRequestException(message)
+    }catch(tooManyRequestException){
+        logger.error(tooManyRequestException)
+        return tooManyRequestException.message
+    }
 // Error 429
 }
 
@@ -140,7 +145,7 @@ const NotImplementedExceptionHandler = (notImplementedFonctionnality) => {
     try{
         throw new NotImplementedException(notImplementedFonctionnality);
     }catch(notImplementedException){
-        logger.error(notImplementedExceptions)
+        logger.error(notImplementedException)
         return notImplementedException.message
     }
 }
@@ -158,5 +163,13 @@ const CorruptedFileExceptionHandler = (fileName) => {
     }catch(corruptedFileException){
         logger.error(corruptedFileException)
         return corruptedFileException.message
+    }
+}
+const StockageInsufisantCloudExceptionHandler = (fileSize) => {
+    try{
+        throw new StockageInsufisantInCloudException(fileSize);
+    }catch(stockageInsufisantInCloudException){
+        logger.error(stockageInsufisantInCloudException)
+        return stockageInsufisantInCloudException.message;
     }
 }
