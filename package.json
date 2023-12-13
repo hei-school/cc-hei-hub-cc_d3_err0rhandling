@@ -2,14 +2,19 @@
   "name": "cc-hei-hub-cc_d3_err0rhandling",
   "version": "1.0.0",
   "description": "javascript error handling",
-  "main": "JSErrorHandler.js",
+  "type": "module",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha tests/*.test.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "chai": "^4.3.10",
     "mocha": "^10.2.0"
+  },
+  "dependencies": {
+    "winston": "^3.11.0"
   }
 }

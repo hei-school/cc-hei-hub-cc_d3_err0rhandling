@@ -3,6 +3,6 @@ export class DuplicateFileException extends Error{
         super()
         this.code = 400
         this.name = "DuplicateFileException";
-        this.message = "File : " + fileName + " already exist";
+        this.message = "File:'" + fileName + "' already exist";
     }
 }

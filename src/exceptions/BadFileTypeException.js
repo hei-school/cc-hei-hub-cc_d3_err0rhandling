@@ -3,6 +3,6 @@ export class BadFileTypeException extends Error{
         super()
         this.code = 400
         this.name = "BadFileTypeException";
-        this.message = "File type " + fileType + "is not allowed"
+        this.message = "File type " + fileType + " is not allowed"
     }
 }
