@@ -18,8 +18,9 @@ SensitiveFile 400  done
 NotAuthorized 401  done
  */
 
-import { BadFileTypeException, DuplicateFileException, FileNameInvalidException, FileNotFoundException, FileTooLargeException, LockException, NotAuthorizedException } from "../exceptions/index.js";
+import { BadFileTypeException, CorruptedFileException, DuplicateFileException, FileNameInvalidException, FileNotFoundException, FileTooLargeException, LegalReasonException, LockException, NotAuthorizedException, NotImplementedException, SensitiveFileException, ServerErrorException } from "../exceptions/index.js";
 import { logger } from "../../utils/index.js";
+import { ServerDownException } from "../exceptions/ServerDownException.js";
 /**
  * 4xx Error Section
  */
@@ -50,7 +51,13 @@ const FileNameExceptionHanlder = (fileName)=>{
         return fileNameInvalidException.message;
     }
 }
-const SensitiveFileException = ()=>{
+const SensitiveFileExceptionHandler = (message)=>{
+    try{
+        throw new SensitiveFileException(message)
+    }catch(sensitiveFileException){
+        logger.error(sensitiveFileException)
+        return sensitiveFileException.message
+    }
 // Error 400
 }
 const UnauthorizedExceptionHandler = (message)=>{
@@ -107,10 +114,49 @@ const TooManyRequestException = ()=>{
 // Error 429
 }
 
-const LegalReasonException = ()=>{
+const LegalReasonExceptionHandler = (message)=>{
+    try{
+        throw new LegalReasonException(message);
+    }catch(legalReasonException){
+        logger.error(legalReasonException)
+        return legalReasonException.message
+    }
 // Error 453
 }
 
 /**
  * 5xx Error Section
  */
+const SeverDownExceptionHandler = (message) => {
+    try{
+        throw new ServerDownException(message);
+    }catch(serverDownException){
+        logger.error(serverDownException.message)
+        return ServerDownException.message
+    }
+}
+
+const NotImplementedExceptionHandler = (notImplementedFonctionnality) => {
+    try{
+        throw new NotImplementedException(notImplementedFonctionnality);
+    }catch(notImplementedException){
+        logger.error(notImplementedExceptions)
+        return notImplementedException.message
+    }
+}
+const ServerErrorExceptionHandler = (message) => {
+    try{
+        throw new ServerErrorException(message);
+    }catch(serverErrorException){
+        logger.error(serverErrorException)
+        return serverErrorException.message
+    }
+}
+const CorruptedFileExceptionHandler = (fileName) => {
+    try{
+        throw new CorruptedFileException(fileName)
+    }catch(corruptedFileException){
+        logger.error(corruptedFileException)
+        return corruptedFileException.message
+    }
+}

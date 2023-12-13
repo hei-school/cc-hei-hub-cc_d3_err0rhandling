@@ -1,9 +1,9 @@
 //tsy azoko
 export class SensitiveFileException extends Error{
-    constructor(fileName){
+    constructor(message){
         super()
         this.code = 400
         this.name = "SensitiveFileException"
-        this.message = ""
+        this.message = message
     }
 }
