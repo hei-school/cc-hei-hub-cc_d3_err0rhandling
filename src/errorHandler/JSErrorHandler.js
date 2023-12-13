@@ -138,7 +138,7 @@ export const SeverDownExceptionHandler = (message) => {
     try{
         throw new ServerDownException(message);
     }catch(serverDownException){
-        logger.error(serverDownException.message)
+        logger.error(serverDownException)
         return serverDownException.message + ", code:" + serverDownException.code
     }
 }
