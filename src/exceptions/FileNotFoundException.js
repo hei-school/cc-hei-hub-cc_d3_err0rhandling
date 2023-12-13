@@ -3,6 +3,6 @@ export class FileNotFoundException extends Error{
         super()
         this.code = 404
         this.name = "FileNotFoundException";
-        this.message = "File " + fileName + "is not found"
+        this.message = "File " + fileName + " is not found"
     }
 }

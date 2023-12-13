@@ -3,6 +3,6 @@ export class FileNameInvalidException extends Error{
         super()
         this.code = 400
         this.name = "FileNameInvalidException";
-        this.message = "fileName " + fileName + "is invalid, make it matrch this pattern:\n " + pattern;
+        this.message = "file named " + fileName + " is invalid, make it match this pattern: " + pattern;
     }
 }

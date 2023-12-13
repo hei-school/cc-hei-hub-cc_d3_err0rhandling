@@ -44,9 +44,9 @@ export const DuplicatedFileExceptionHandler = (fileName)=>{
     }
 }
 
-export const FileNameExceptionHanlder = (fileName)=>{
+export const FileNameExceptionHanlder = (fileName,pattern)=>{
     try{
-        throw new FileNameInvalidException(fileName)
+        throw new FileNameInvalidException(fileName,pattern)
     }catch(fileNameInvalidException){
         logger.error(fileNameInvalidException)
         return fileNameInvalidException.message + ", code:" + fileNameInvalidException.code;
@@ -139,7 +139,7 @@ export const SeverDownExceptionHandler = (message) => {
         throw new ServerDownException(message);
     }catch(serverDownException){
         logger.error(serverDownException.message)
-        return ServerDownException.message + ", code:" + serverDownException.code
+        return serverDownException.message + ", code:" + serverDownException.code
     }
 }
 
