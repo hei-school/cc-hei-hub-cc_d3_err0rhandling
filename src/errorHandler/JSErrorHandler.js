@@ -19,7 +19,7 @@ SensitiveFile 400  done
 NotAuthorized 401  done
  */
 
-import { BadFileTypeException, CorruptedFileException, DuplicateFileException, FileNameInvalidException, FileNotFoundException, FileTooLargeException, LegalReasonException, LockException, NotAuthorizedException, NotImplementedException, SensitiveFileException, ServerErrorException, StockageInsufisantInCloudException, TooManyRequestException } from "../exceptions/index.js";
+import { BadFileTypeException, CorruptedFileException, DuplicateFileException, FileNameInvalidException, FileNotFoundException, FileTooLargeException, LegalReasonException, LockException, NotAuthorizedException, NotImplementedException, RequestTimeOutException, SensitiveFileException, ServerErrorException, StockageInsufisantInCloudException, TooManyRequestException } from "../exceptions/index.js";
 import { logger } from "../../utils/index.js";
 import { ServerDownException } from "../exceptions/ServerDownException.js";
 /**
@@ -31,7 +31,7 @@ export const BadFileTypeExceptionHandler = (fileExtention)=>{
         throw new BadFileTypeException(fileExtention)
     }catch(badFileTypeException){
         logger.error(badFileTypeException)
-        return badFileTypeException.message
+        return badFileTypeException.message + ", code:" + badFileTypeException.code
     }
 }
 
@@ -40,91 +40,93 @@ export const DuplicatedFileExceptionHandler = (fileName)=>{
         throw new DuplicateFileException(fileName)
     }catch(duplicateFileException){
         logger.error(duplicateFileException)
-        return duplicateFileException.message;
+        return duplicateFileException.message + ", code:" + duplicateFileException.code;
     }
 }
 
-const FileNameExceptionHanlder = (fileName)=>{
+export const FileNameExceptionHanlder = (fileName)=>{
     try{
         throw new FileNameInvalidException(fileName)
     }catch(fileNameInvalidException){
         logger.error(fileNameInvalidException)
-        return fileNameInvalidException.message;
+        return fileNameInvalidException.message + ", code:" + fileNameInvalidException.code;
     }
 }
-const SensitiveFileExceptionHandler = (message)=>{
+export const SensitiveFileExceptionHandler = (message)=>{
     try{
         throw new SensitiveFileException(message)
     }catch(sensitiveFileException){
         logger.error(sensitiveFileException)
-        return sensitiveFileException.message
+        return sensitiveFileException.message + ", code:" + sensitiveFileException.code
     }
 // Error 400
 }
-const UnauthorizedExceptionHandler = (message)=>{
+export const UnauthorizedExceptionHandler = (message)=>{
     try{
         throw new NotAuthorizedException(message);
     }catch(notAuthorizedException){
         logger.error(notAuthorizedException)
-        return notAuthorizedException.message
+        return notAuthorizedException.message + ", code:" + notAuthorizedException.code
     }
 }
-const FileNotFoundHandler = (fileName)=>{
+export const FileNotFoundHandler = (fileName)=>{
     try{
         throw new FileNotFoundException(fileName)
     }catch(fileNotFoundException){
         logger.error(fileNotFoundException)
-        return fileNotFoundException.message;
+        return fileNotFoundException.message + ", code:" + fileNotFoundException.code;
     }
 }
 /**
  * Time out exception occur when the server doesn't respond after a certain amout of time
  */
 
-const TimeOutExceptionHandler = ()=>{
+export const TimeOutExceptionHandler = ()=>{
     try{
-        fetch("http://1.2.3.4",{});
+        fetch("http://1.2.3.4",{}).catch(()=>{
+            throw new RequestTimeOutException();
+        });
     }catch(timeOutException){
         logger.error(timeOutException)
-        return timeOutException.message
+        return timeOutException.message + ", code:" + timeOutException.code
     }
 // Error 408    
 }
-const FileTooLargeExceptionHandler = (fileSize)=>{
+export const FileTooLargeExceptionHandler = (fileSize)=>{
     try{
         throw new FileTooLargeException(fileSize)
     }catch(fileTooLargeException){
         logger.error(fileTooLargeException)
-        return fileTooLargeException.message
+        return fileTooLargeException.message + ", code:" + fileTooLargeException.code
     }
 // Error 413
 }
-const LockExceptionHandler = (message)=>{
+export const LockExceptionHandler = (message)=>{
     try{
         throw new LockException(message)
     }catch(lockException){
         logger.error(lockException)
-        return lockException.message
+        return lockException.message + ", code:" + lockException.code
     }
 // Error 423
 }
 
-const TooManyRequestExceptionHandler = (message) => {
+export const TooManyRequestExceptionHandler = (message) => {
     try{
         throw new TooManyRequestException(message)
     }catch(tooManyRequestException){
         logger.error(tooManyRequestException)
-        return tooManyRequestException.message
+        return tooManyRequestException.message + ", code:" + tooManyRequestException.code
     }
 // Error 429
 }
 
-const LegalReasonExceptionHandler = (message)=>{
+export const LegalReasonExceptionHandler = (message)=>{
     try{
         throw new LegalReasonException(message);
     }catch(legalReasonException){
         logger.error(legalReasonException)
-        return legalReasonException.message
+        return legalReasonException.message + ", code:" + legalReasonException.code
     }
 // Error 453
 }
@@ -132,44 +134,44 @@ const LegalReasonExceptionHandler = (message)=>{
 /**
  * 5xx Error Section
  */
-const SeverDownExceptionHandler = (message) => {
+export const SeverDownExceptionHandler = (message) => {
     try{
         throw new ServerDownException(message);
     }catch(serverDownException){
         logger.error(serverDownException.message)
-        return ServerDownException.message
+        return ServerDownException.message + ", code:" + serverDownException.code
     }
 }
 
-const NotImplementedExceptionHandler = (notImplementedFonctionnality) => {
+export const NotImplementedExceptionHandler = (notImplementedFonctionnality) => {
     try{
         throw new NotImplementedException(notImplementedFonctionnality);
     }catch(notImplementedException){
         logger.error(notImplementedException)
-        return notImplementedException.message
+        return notImplementedException.message + ", code:" + notImplementedException.code
     }
 }
-const ServerErrorExceptionHandler = (message) => {
+export const ServerErrorExceptionHandler = (message) => {
     try{
         throw new ServerErrorException(message);
     }catch(serverErrorException){
         logger.error(serverErrorException)
-        return serverErrorException.message
+        return serverErrorException.message + ", code:" + serverErrorException.code
     }
 }
-const CorruptedFileExceptionHandler = (fileName) => {
+export const CorruptedFileExceptionHandler = (fileName) => {
     try{
         throw new CorruptedFileException(fileName)
     }catch(corruptedFileException){
         logger.error(corruptedFileException)
-        return corruptedFileException.message
+        return corruptedFileException.message + ", code:" + corruptedFileException.code
     }
 }
-const StockageInsufisantCloudExceptionHandler = (fileSize) => {
+export const StockageInsufisantCloudExceptionHandler = (fileSize) => {
     try{
         throw new StockageInsufisantInCloudException(fileSize);
     }catch(stockageInsufisantInCloudException){
         logger.error(stockageInsufisantInCloudException)
-        return stockageInsufisantInCloudException.message;
+        return stockageInsufisantInCloudException.message + ", code:" + stockageInsufisantInCloudException.code;
     }
 }
