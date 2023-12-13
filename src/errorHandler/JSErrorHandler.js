@@ -18,7 +18,7 @@ SensitiveFile 400  done
 NotAuthorized 401  done
  */
 
-import { BadFileTypeException, DuplicateFileException } from "../exceptions/index.js";
+import { BadFileTypeException, DuplicateFileException, FileNameInvalidException, FileNotFoundException } from "../exceptions/index.js";
 import { logger } from "../../utils/index.js";
 /**
  * 4xx Error Section
@@ -28,7 +28,7 @@ export const BadFileTypeExceptionHandler = (fileExtention)=>{
     try{
         throw new BadFileTypeException(fileExtention)
     }catch(badFileTypeException){
-        logger.error(badFileTypeException.message)
+        logger.error(badFileTypeException)
         return badFileTypeException.message
     }
 }
@@ -37,16 +37,17 @@ export const DuplicatedFileExceptionHandler = (fileName)=>{
     try{
         throw new DuplicateFileException(fileName)
     }catch(duplicateFileException){
-        logger.error(duplicateFileException.message)
+        logger.error(duplicateFileException)
         return duplicateFileException.message;
     }
 }
 
-const FileNameException = ()=>{
+const FileNameExceptionHanlder = (fileName)=>{
     try{
-
-    }catch{
-console.log("Error 400: File name is invalid");
+        throw new FileNameInvalidException(fileName)
+    }catch(fileNameInvalidException){
+        logger.error(fileNameInvalidException)
+        return fileNameInvalidException.message;
     }
 }
 const SensitiveFileException = ()=>{
