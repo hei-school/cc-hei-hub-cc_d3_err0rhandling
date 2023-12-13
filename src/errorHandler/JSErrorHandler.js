@@ -18,7 +18,7 @@ SensitiveFile 400  done
 NotAuthorized 401  done
  */
 
-import { BadFileTypeException, DuplicateFileException, FileNameInvalidException, FileNotFoundException } from "../exceptions/index.js";
+import { BadFileTypeException, DuplicateFileException, FileNameInvalidException, FileNotFoundException, FileTooLargeException, LockException, NotAuthorizedException } from "../exceptions/index.js";
 import { logger } from "../../utils/index.js";
 /**
  * 4xx Error Section
@@ -53,21 +53,56 @@ const FileNameExceptionHanlder = (fileName)=>{
 const SensitiveFileException = ()=>{
 // Error 400
 }
-const UnauthorizedException = ()=>{
-// Error 401
+const UnauthorizedExceptionHandler = (message)=>{
+    try{
+        throw new NotAuthorizedException(message);
+    }catch(notAuthorizedException){
+        logger.error(notAuthorizedException)
+        return notAuthorizedException.message
+    }
 }
-const FileNotFound = ()=>{
-// ??
+const FileNotFoundHandler = (fileName)=>{
+    try{
+        throw new FileNotFoundException(fileName)
+    }catch(fileNotFoundException){
+        logger.error(fileNotFoundException)
+        return fileNotFoundException.message;
+    }
 }
-const TimeOutException = ()=>{
+/**
+ * Time out exception occur when the server doesn't respond after a certain amout of time
+ */
+
+const TimeOutExceptionHandler = ()=>{
+    try{
+        fetch("http://1.2.3.4",{});
+    }catch(timeOutException){
+        logger.error(timeOutException)
+        return timeOutException.message
+    }
 // Error 408    
 }
-const FileTooLargeException = ()=>{
+const FileTooLargeExceptionHandler = (fileSize)=>{
+    try{
+        throw new FileTooLargeException(fileSize)
+    }catch(fileTooLargeException){
+        logger.error(fileTooLargeException)
+        return fileTooLargeException.message
+    }
 // Error 413
 }
-const LockException = ()=>{
+const LockExceptionHandler = (message)=>{
+    try{
+        throw new LockException(message)
+    }catch(lockException){
+        logger.error(lockException)
+        return lockException.message
+    }
 // Error 423
 }
+/**
+ * TooMany Request Exception is an Exception that occures when the client do to many request at one ressource
+ */
 const TooManyRequestException = ()=>{
 // Error 429
 }

@@ -1,9 +1,9 @@
 //tsy azoko
 export class LockException extends Error{
-    constructor(){
+    constructor(message){
         super()
         this.code = 423
         this.name = "LockException";
-        this.message = ""
+        this.message = message
     }
 }
