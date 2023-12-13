@@ -1,0 +1,12 @@
+{
+  "name": "cc-hei-hub-cc_d3_err0rhandling",
+  "version": "1.0.0",
+  "description": "javascript error handling",
+  "main": "JSErrorHandler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
